@@ -4,6 +4,7 @@ fn split_string_into_array(contents: &str) -> Vec<String> {
     contents.split("\r\n").map(String::from).collect()
 }
 
+//test
 fn convert_to_int_vector(string_vec: Vec<String>) -> Vec<i32> {
     string_vec
         .iter()
