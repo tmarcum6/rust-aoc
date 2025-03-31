@@ -1,15 +1,45 @@
-use std::fs;
+use std::collections::HashSet;
+use std::{fs, i32};
 
 fn split_string_into_array(contents: &str) -> Vec<String> {
     contents.split("\r\n").map(String::from).collect()
 }
 
-//test
 fn convert_to_int_vector(string_vec: Vec<String>) -> Vec<i32> {
     string_vec
         .iter()
         .filter_map(|s| s.parse::<i32>().ok())
         .collect()
+}
+
+fn part_one(v1: Vec<i32>, v2: Vec<i32>) {
+    let diff: i32 = v1.iter().zip(v2.iter()).map(|(a, b)| (a - b).abs()).sum();
+
+    println!("{}", diff);
+}
+
+fn remove_duplicates(vec: Vec<i32>) -> Vec<i32> {
+    let set: HashSet<_> = vec.into_iter().collect(); // Convert to HashSet to remove duplicates
+    set.into_iter().collect() // Convert back to Vec
+}
+
+fn part_two(v3: Vec<i32>, v4: &Vec<i32>) {
+    let mut sim: i32 = 0;
+    let mut count: i32;
+
+    let unique_v3 = remove_duplicates(v3);
+
+    for i in unique_v3 {
+        count = 0;
+        for y in v4 {
+            if i == *y {
+                count += 1;
+            }
+        }
+        sim += i * count;
+    }
+
+    print!("{}", sim);
 }
 
 fn main() {
@@ -34,7 +64,9 @@ fn main() {
         Err(e) => eprintln!("Error reading file: {}", e),
     }
 
-    let diff: i32 = v1.iter().zip(v2.iter()).map(|(a, b)| (a - b).abs()).sum();
+    let v3 = v1.clone();
+    let v4 = v2.clone();
 
-    println!("{}", diff);
+    part_one(v1, v2);
+    part_two(v3, &v4);
 }
