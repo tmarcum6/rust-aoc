@@ -1,3 +1,4 @@
+use core::str;
 use std::collections::HashSet;
 use std::{fs, i32};
 
@@ -12,26 +13,65 @@ fn convert_to_int_vector(string_vec: Vec<String>) -> Vec<i32> {
         .collect()
 }
 
-fn part_one(v1: Vec<i32>, v2: Vec<i32>) {
+fn remove_duplicates(v: &Vec<i32>) -> Vec<i32> {
+    let set: HashSet<_> = v.iter().copied().collect();
+    set.into_iter().collect()
+}
+
+fn parse_input_day_one(p: &str, sort: bool) -> Vec<i32> {
+    let mut v: Vec<i32> = Vec::new();
+
+    match fs::read_to_string(p) {
+        Ok(contents) => {
+            let data = split_string_into_array(&contents);
+            v = convert_to_int_vector(data);
+        }
+        Err(e) => eprintln!("Error reading file: {}", e),
+    }
+
+    if sort {
+        v.sort();
+    }
+
+    v
+}
+
+fn parse_input_day_two(p: &str) -> Vec<i32> {
+    let mut v: Vec<i32> = Vec::new();
+
+    match fs::read_to_string(p) {
+        Ok(contents) => {
+            let data: Vec<String> = contents.lines().map(String::from).collect();
+            for d in &data {
+                println!("{}", d)
+            }
+
+            v = convert_to_int_vector(data);
+        }
+        Err(e) => {
+            eprintln!("error reading file: {}", e);
+        }
+    }
+    v
+}
+
+fn split_input_day_two() {}
+
+fn day_one_part_one(v1: &Vec<i32>, v2: &Vec<i32>) {
     let diff: i32 = v1.iter().zip(v2.iter()).map(|(a, b)| (a - b).abs()).sum();
 
     println!("{}", diff);
 }
 
-fn remove_duplicates(vec: Vec<i32>) -> Vec<i32> {
-    let set: HashSet<_> = vec.into_iter().collect(); // Convert to HashSet to remove duplicates
-    set.into_iter().collect() // Convert back to Vec
-}
-
-fn part_two(v3: Vec<i32>, v4: &Vec<i32>) {
+fn day_one_part_two(v1: &Vec<i32>, v2: &Vec<i32>) {
     let mut sim: i32 = 0;
     let mut count: i32;
 
-    let unique_v3 = remove_duplicates(v3);
+    let unique_v1 = remove_duplicates(v1);
 
-    for i in unique_v3 {
+    for i in unique_v1 {
         count = 0;
-        for y in v4 {
+        for y in v2 {
             if i == *y {
                 count += 1;
             }
@@ -42,31 +82,17 @@ fn part_two(v3: Vec<i32>, v4: &Vec<i32>) {
     print!("{}", sim);
 }
 
+fn day_two_part_one(v: &Vec<i32>) {}
+
+fn day_two_part_two() {}
+
 fn main() {
-    let mut v1 = Vec::new();
-    let mut v2 = Vec::new();
+    let v1 = parse_input_day_one("input/d1a.txt", true);
+    let v2 = parse_input_day_one("input/d1b.txt", true);
+    day_one_part_one(&v1, &v2);
+    day_one_part_two(&v1, &v2);
 
-    match fs::read_to_string("input/d11a.txt") {
-        Ok(contents) => {
-            let values_d11a = split_string_into_array(&contents);
-            v1 = convert_to_int_vector(values_d11a);
-            v1.sort();
-        }
-        Err(e) => eprintln!("Error reading file: {}", e),
-    }
-
-    match fs::read_to_string("input/d11b.txt") {
-        Ok(contents) => {
-            let values_d11b = split_string_into_array(&contents);
-            v2 = convert_to_int_vector(values_d11b);
-            v2.sort();
-        }
-        Err(e) => eprintln!("Error reading file: {}", e),
-    }
-
-    let v3 = v1.clone();
-    let v4 = v2.clone();
-
-    part_one(v1, v2);
-    part_two(v3, &v4);
+    let v3 = parse_input_day_two("input/d2a.txt");
+    //    day_two_part_one(&v3);
+    //    day_two_part_two();
 }
