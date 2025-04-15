@@ -36,7 +36,7 @@ fn parse_input_day_one(p: &str, sort: bool) -> Vec<i32> {
     v
 }
 
-fn parse_input_day_two(p: &str) -> Vec<i32> {
+fn _parse_input_day_two(p: &str) -> Vec<i32> {
     let mut v: Vec<i32> = Vec::new();
 
     match fs::read_to_string(p) {
@@ -54,8 +54,6 @@ fn parse_input_day_two(p: &str) -> Vec<i32> {
     }
     v
 }
-
-fn split_input_day_two() {}
 
 fn day_one_part_one(v1: &Vec<i32>, v2: &Vec<i32>) {
     let diff: i32 = v1.iter().zip(v2.iter()).map(|(a, b)| (a - b).abs()).sum();
@@ -82,17 +80,9 @@ fn day_one_part_two(v1: &Vec<i32>, v2: &Vec<i32>) {
     print!("{}", sim);
 }
 
-fn day_two_part_one(v: &Vec<i32>) {}
-
-fn day_two_part_two() {}
-
 fn main() {
     let v1 = parse_input_day_one("input/d1a.txt", true);
     let v2 = parse_input_day_one("input/d1b.txt", true);
     day_one_part_one(&v1, &v2);
     day_one_part_two(&v1, &v2);
-
-    let v3 = parse_input_day_two("input/d2a.txt");
-    //    day_two_part_one(&v3);
-    //    day_two_part_two();
 }
