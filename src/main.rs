@@ -1,4 +1,5 @@
 use core::str;
+use itertools::Itertools;
 use std::collections::HashSet;
 use std::{fs, i32};
 
@@ -18,7 +19,7 @@ fn remove_duplicates(v: &Vec<i32>) -> Vec<i32> {
     set.into_iter().collect()
 }
 
-fn parse_input_day_one(p: &str, sort: bool) -> Vec<i32> {
+fn parse_input(p: &str, sort: bool) -> Vec<i32> {
     let mut v: Vec<i32> = Vec::new();
 
     match fs::read_to_string(p) {
@@ -33,25 +34,6 @@ fn parse_input_day_one(p: &str, sort: bool) -> Vec<i32> {
         v.sort();
     }
 
-    v
-}
-
-fn _parse_input_day_two(p: &str) -> Vec<i32> {
-    let mut v: Vec<i32> = Vec::new();
-
-    match fs::read_to_string(p) {
-        Ok(contents) => {
-            let data: Vec<String> = contents.lines().map(String::from).collect();
-            for d in &data {
-                println!("{}", d)
-            }
-
-            v = convert_to_int_vector(data);
-        }
-        Err(e) => {
-            eprintln!("error reading file: {}", e);
-        }
-    }
     v
 }
 
@@ -80,9 +62,14 @@ fn day_one_part_two(v1: &Vec<i32>, v2: &Vec<i32>) {
     print!("{}", sim);
 }
 
+fn day_two_part_one(v: &Vec<i32>) {}
+
 fn main() {
-    let v1 = parse_input_day_one("input/d1a.txt", true);
-    let v2 = parse_input_day_one("input/d1b.txt", true);
+    let v1 = parse_input("input/d1a.txt", true);
+    let v2 = parse_input("input/d1b.txt", true);
     day_one_part_one(&v1, &v2);
     day_one_part_two(&v1, &v2);
+
+    let v3 = parse_input("input/d2a.txt", false);
+    day_two_part_one(&v3);
 }
